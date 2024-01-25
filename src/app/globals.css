@@ -83,3 +83,13 @@ body {
 .commonCss {
   @apply flex h-full flex-col items-center justify-center;
 }
+
+/* styles.module.css */
+.menu {
+  transition: background-color 0.3s ease;
+  background-color: #ffc017;
+}
+
+.menu.scrolled {
+  background-color: #ffffff;
+}
