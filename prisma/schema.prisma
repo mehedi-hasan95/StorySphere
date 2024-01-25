@@ -48,12 +48,15 @@ model User {
 }
 
 model Writer {
-  id         String  @id @default(cuid())
-  userId     String
-  bio        String
-  education  String
-  isVerified Boolean @default(false)
-  user       User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  userId      String
+  bio         String
+  education   String
+  fb          String?
+  x           String?
+  authorityIn String
+  isVerified  Boolean @default(false)
+  user        User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

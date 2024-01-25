@@ -21,7 +21,9 @@ export const UserInfo = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={currentUser?.image || ""} />
+          <AvatarImage
+            src={currentUser?.image || "https://github.com/shadcn.png"}
+          />
           <AvatarFallback>
             <User2 />
           </AvatarFallback>
