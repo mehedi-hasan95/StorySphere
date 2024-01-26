@@ -1,5 +1,5 @@
 "use client";
-import { LogOut, Settings, User, User2 } from "lucide-react";
+import { LogOut, Settings, User, User2, User2Icon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -11,12 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser, useCurrentUserRole } from "@/hooks/use-current-user";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 export const UserInfo = () => {
   const currentUser = useCurrentUser();
+  const currentUserRole = useCurrentUserRole();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -43,6 +44,14 @@ export const UserInfo = () => {
               <span>Settings</span>
             </DropdownMenuItem>
           </Link>
+          {currentUserRole === "ADMIN" && (
+            <Link href="/admin">
+              <DropdownMenuItem className="cursor-pointer">
+                <User2Icon className="mr-2 h-4 w-4" />
+                <span>Admin</span>
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => signOut()}

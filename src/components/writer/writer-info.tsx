@@ -68,7 +68,7 @@ export const WriterInfo = ({ initialData }: SettingsProps) => {
               setError(data.error);
               setSuccess(data.success);
               if (data.success) {
-                form.reset();
+                router.refresh();
               }
             });
       }

@@ -7,13 +7,17 @@ import {
   authRoutes,
   apiAuthPrefix,
   DEFAULT_LOGIN_REDIRECT,
+  adminRoute,
 } from "@/routes";
+import { NextResponse } from "next/server";
+import { CurrentUserRole } from "./lib/current-user";
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
   const isLogIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAdminRoute = nextUrl.pathname.startsWith(adminRoute);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
@@ -25,7 +29,7 @@ export default auth((req) => {
   //   User allow to login or register page. If login redirect to default page
   if (isAuthRoute) {
     if (isLogIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;
   }
@@ -39,10 +43,19 @@ export default auth((req) => {
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     // The route
-    return Response.redirect(
+    return NextResponse.redirect(
       new URL(`/signin?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );
   }
+
+  const userRole = await CurrentUserRole();
+  if (isAdminRoute) {
+    if (userRole !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", nextUrl));
+    }
+    return null;
+  }
+
   return null;
 });
 

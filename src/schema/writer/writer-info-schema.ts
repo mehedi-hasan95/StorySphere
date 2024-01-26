@@ -8,4 +8,5 @@ export const WriterInfoSchema = z.object({
   authorityIn: z.string().min(1, { message: "Your expertness" }),
   fb: z.optional(z.string().min(1, { message: "Your Facebook link" })),
   x: z.optional(z.string().min(1, { message: "Your X link" })),
+  isVerified: z.optional(z.coerce.boolean()),
 });

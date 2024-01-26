@@ -76,8 +76,8 @@ export const Settings = ({ initialData }: SettingsProps) => {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-10">
-      <Card className="md:w-[600px]">
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+      <Card className="">
         <CardHeader className="text-center">
           <CardTitle>⛭ Settings</CardTitle>
           <CardDescription>Update your information</CardDescription>

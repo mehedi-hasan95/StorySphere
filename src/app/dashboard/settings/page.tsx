@@ -3,10 +3,10 @@ import { CurrentUser } from "@/lib/current-user";
 import { prismaDb } from "@/lib/prismaDb";
 
 const SettingsPage = async () => {
-  const cu = await CurrentUser();
+  const currentUser = await CurrentUser();
   const data = await prismaDb.writer.findFirst({
     where: {
-      userId: cu?.id,
+      userId: currentUser?.id,
     },
   });
   return (
