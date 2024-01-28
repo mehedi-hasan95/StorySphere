@@ -5,5 +5,4 @@ export const WritePostSchema = z.object({
   image: z.optional(z.string()),
   short_desc: z.string().min(10, { message: "Write short description" }),
   content: z.string(),
-  time: z.coerce.number(),
 });

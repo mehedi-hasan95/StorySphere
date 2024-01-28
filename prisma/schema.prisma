@@ -92,7 +92,6 @@ model Posts {
   image      String?
   short_desc String
   content    String     @db.Text
-  time       Int
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime   @default(now())

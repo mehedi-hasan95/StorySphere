@@ -18,11 +18,13 @@ import dynamic from "next/dynamic";
 import { WritePostSchema } from "@/schema/writer/write-post-schema";
 import { ImageUpload } from "@/components/custom/image-upload";
 import { WritePostAction } from "@/actions/writer-actions/write-post-action";
-import { toast } from "sonner";
 import { FormError } from "@/components/form/form-error";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 const WriteForm = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof WritePostSchema>>({
     resolver: zodResolver(WritePostSchema),
@@ -30,7 +32,6 @@ const WriteForm = () => {
       title: "",
       image: undefined,
       short_desc: "",
-      time: 1,
       content: "",
     },
   });
@@ -44,22 +45,23 @@ const WriteForm = () => {
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof WritePostSchema>) {
     setError("");
-    setSuccess("");
     startTransition(() => {
       WritePostAction(values).then((data) => {
         setError(data?.error);
-        if (data?.success) {
+        if (data?.data) {
           toast.success(data?.success);
+          router.push(`/${data?.data?.id}`);
         }
       });
     });
   }
 
   return (
-    <div>
+    <div className="pt-5 pb-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
+            disabled={isPending}
             control={form.control}
             name="title"
             render={({ field }) => (
@@ -73,6 +75,7 @@ const WriteForm = () => {
             )}
           />
           <FormField
+            disabled={isPending}
             control={form.control}
             name="short_desc"
             render={({ field }) => (
@@ -86,6 +89,7 @@ const WriteForm = () => {
             )}
           />
           <FormField
+            disabled={isPending}
             control={form.control}
             name="image"
             render={({ field }) => (
@@ -102,25 +106,9 @@ const WriteForm = () => {
               </FormItem>
             )}
           />
+
           <FormField
-            control={form.control}
-            name="time"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Read Time</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="Read Time"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
+            disabled={isPending}
             control={form.control}
             name="content"
             render={({ field }) => (
@@ -134,7 +122,14 @@ const WriteForm = () => {
             )}
           />
           <FormError message={error} />
-          <Button type="submit">Submit</Button>
+          {isPending ? (
+            <Button disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
         </form>
       </Form>
     </div>

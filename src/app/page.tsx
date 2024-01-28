@@ -15,6 +15,10 @@ export default async function Home() {
         gte: expectedData,
       },
     },
+    take: 6,
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       user: true,
     },
@@ -24,7 +28,7 @@ export default async function Home() {
       <HomeMenu />
       <Hero />
       <div className="max-w-6xl mx-auto px-6">
-        <div className="flex gap-x-3">
+        <div className="flex gap-x-3 py-5">
           <TrendingUp />
           <p className="font-bold">Trending on Medium</p>
         </div>

@@ -13,12 +13,19 @@ const WritePage = async () => {
       },
     },
   });
+  const unVerifiedWriter = await prismaDb.writer.findFirst({
+    where: {
+      userId: currentUser?.id,
+    },
+  });
   return (
     <div>
-      {verifiedWriter ? (
+      {!unVerifiedWriter ? (
+        <FormError message="Please update your teacher profile" />
+      ) : verifiedWriter ? (
         <WriteForm />
       ) : (
-        <FormError message="You are not verified. Please wait for a while" />
+        <FormError message="You are not verified. Admin will verify soon" />
       )}
     </div>
   );

@@ -41,10 +41,8 @@ export const HomeMenu = () => {
         <div className="hidden md:flex justify-between items-center gap-x-4">
           <Link href="/about">Our story</Link>
           <Link href="/membership">Membership</Link>
-          {currentUser ? (
+          {currentUser && currentUser.role === "WRITER" && (
             <Link href="/write">Write</Link>
-          ) : (
-            <Link href="/program">Write</Link>
           )}
           {currentUser ? <UserInfo /> : <LoginButton>Sign In</LoginButton>}
         </div>

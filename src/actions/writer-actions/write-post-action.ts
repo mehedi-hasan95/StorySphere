@@ -26,11 +26,10 @@ export const WritePostAction = async (
     if (!validateField.success) {
       return { error: "Something went wrong" };
     }
-    const { content, short_desc, time, title, image } = validateField.data;
+    const { content, short_desc, title, image } = validateField.data;
     const info = {
       content,
       short_desc,
-      time,
       title,
       image,
       userId: currentUser?.id as string,
