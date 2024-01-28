@@ -1,68 +1,70 @@
 import Image from "next/image";
+import { format } from "date-fns";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { MessageCircle, Star, TrendingUp } from "lucide-react";
+import { MessageCircle, PictureInPicture, Star, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Posts, User } from "@prisma/client";
 
-export const TrendinPosts = () => {
+interface TrendinPostsProps {
+  data: Array<Posts & { user: User }>;
+}
+export const TrendinPosts = async ({ data }: TrendinPostsProps) => {
   return (
-    <div className="max-w-6xl p-6 mx-auto">
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-        <div className="flex gap-x-3">
-          <TrendingUp />
-          <p className="font-bold">Trending on Medium</p>
-        </div>
-        <Card>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {data?.map((item) => (
+        <Card key={item.id}>
           <CardHeader>
-            <Image src="" alt="" height={500} width={500} className="w-full " />
+            <Image
+              src={
+                item.image ||
+                `https://res.cloudinary.com/dlnboadwx/image/upload/v1706374039/StorySphere/vndkrdk87fnmxme6kevk.jpg`
+              }
+              alt=""
+              height={500}
+              width={500}
+              className="w-full "
+            />
           </CardHeader>
           <CardContent>
             <div className="flex gap-x-2">
               <Image
-                src=""
+                src={item?.user?.image || "https://github.com/shadcn.png"}
                 alt=""
                 height={500}
                 width={500}
                 className="h-8 w-8 rounded-full"
               />
-              <p>Autho Name</p>
-              <p>Company name</p>
+              <p>{item?.user?.name}</p>
             </div>
-            <h2 className="md:text-xl font-bold">Title</h2>
-            <p className="line-clamp-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque laudantium qui eaque, facere soluta sit asperiores
-              repellat nobis! Doloribus, voluptatum.
-            </p>
+            <h2 className="md:text-xl font-bold">{item.title}</h2>
+            <p className="line-clamp-2">{item.short_desc}</p>
           </CardContent>
           <CardFooter>
             <div>
-              <div className="flex gap-x-2">
-                <Star className="h-2 w-2 text-yellow-500 fill-yellow-500" /> .
-                10 min read . <p>Date</p>
+              <div className="flex gap-x-2 items-center">
+                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                {item.time} min read{" "}
+                <p>{format(item.createdAt, "MMMM dd, yyyy")}</p>
               </div>
               <div className="flex justify-between items-center gap-x-3">
                 <div className="flex gap-x-5">
-                  <Image
-                    src="/clap.png"
-                    alt=""
-                    height={500}
-                    width={500}
-                    className="h-4 w-4"
-                  />
                   <Button size={"sm"} variant={"ghost"}>
-                    <MessageCircle className="h-2 w-2 mr-2" /> 10
+                    <ThumbsUp className="h-4 w-4 mr-2" /> 10
+                  </Button>
+                  <Button size={"sm"} variant={"ghost"}>
+                    <MessageCircle className="h-4 w-4 mr-2" /> 10
                   </Button>
                 </div>
               </div>
             </div>
           </CardFooter>
         </Card>
-      </div>
+      ))}
     </div>
   );
 };

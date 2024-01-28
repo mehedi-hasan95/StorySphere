@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/provider/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/custom/theme-provider";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,8 +39,12 @@ export default function RootLayout({
         className={`${overpass_mono.variable} ${merriweather.variable}`}
       >
         <body className={cn(inter.className)}>
-          {children}
-          <Toaster position="top-center" richColors />
+          <EdgeStoreProvider>
+            <ThemeProvider attribute="class" defaultTheme="system">
+              {children}
+              <Toaster position="top-center" richColors />
+            </ThemeProvider>
+          </EdgeStoreProvider>
         </body>
       </html>
     </AuthProvider>

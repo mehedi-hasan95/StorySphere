@@ -21,8 +21,8 @@ import {
   CreateWriterAcion,
   UpdateWriterAction,
 } from "@/actions/writer-actions/update-writer-action";
-import { FormError } from "../form/form-error";
-import { FormSuccess } from "../form/form-success";
+import { FormError } from "../../../components/form/form-error";
+import { FormSuccess } from "../../../components/form/form-success";
 import { Writer } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -148,7 +148,7 @@ export const WriterInfo = ({ initialData }: SettingsProps) => {
               name="x"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your X Id</FormLabel>
+                  <FormLabel>Your X(twiter) Id</FormLabel>
                   <FormControl>
                     <Input type="url" placeholder="x.com/you" {...field} />
                   </FormControl>

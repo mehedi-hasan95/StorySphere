@@ -36,17 +36,21 @@ enum userRole {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   password      String?
   emailVerified DateTime?
   image         String?
-  role          userRole  @default(USER)
+  role          userRole   @default(USER)
   accounts      Account[]
   writer        Writer[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  posts         Posts[]
+  bookmark      Bookmark[]
+  like          Like[]
+  comment       Comment[]
 }
 
 model Writer {
@@ -80,4 +84,50 @@ model PasswordResetToken {
   expires DateTime
 
   @@unique([email, token])
+}
+
+model Posts {
+  id         String     @id @default(cuid())
+  title      String
+  image      String?
+  short_desc String
+  content    String     @db.Text
+  time       Int
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt()
+  bookmark   Bookmark[]
+  like       Like[]
+  comment    Comment[]
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
 }

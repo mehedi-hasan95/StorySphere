@@ -17,7 +17,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string) => {
   const confirmLink = `${process.env.NEXT_PUBLIC_URL}/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "account@elysiumdeveloper.com",
     to: email,
     subject: "Reset Password",
     html: `<p>Please click to <a href="${confirmLink}">confirm</a> reset your password</p>`,
