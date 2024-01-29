@@ -2,8 +2,8 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-import { Calendar, MessageCircle, ThumbsUp } from "lucide-react";
-import { Posts, User, Writer } from "@prisma/client";
+import { Calendar } from "lucide-react";
+import { Posts, User } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 

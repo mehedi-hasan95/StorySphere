@@ -17,11 +17,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
       user: true,
     },
   });
-  //   Editor setup
-  //   const Editor = useMemo(
-  //     () => dynamic(() => import("@/components/custom/editor"), { ssr: false }),
-  //     []
-  //   );
+
   return (
     <div>
       <div className="flex justify-between items-center max-w-6xl mx-auto px-6 py-4">

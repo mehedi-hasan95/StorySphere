@@ -9,5 +9,14 @@ export const EditorRead = ({ data }: any) => {
     () => dynamic(() => import("@/components/custom/editor"), { ssr: false }),
     []
   );
-  return <Editor initialContent={data} onChange={() => {}} editable={false} />;
+  const onChange = () => {};
+  return (
+    <Editor
+      initialContent={data}
+      onChange={() => {
+        onChange;
+      }}
+      editable={false}
+    />
+  );
 };

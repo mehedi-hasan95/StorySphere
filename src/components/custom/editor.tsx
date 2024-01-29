@@ -19,7 +19,7 @@ const Editor = ({ onChange, initialContent, editable }: EditorProps) => {
     return response.url;
   };
   // Creates a new editor instance.
-  const editor: BlockNoteEditor = useBlockNote({
+  const editor: BlockNoteEditor | null = useBlockNote({
     editable,
     initialContent: initialContent ? JSON.parse(initialContent) : undefined,
     onEditorContentChange(editor) {
