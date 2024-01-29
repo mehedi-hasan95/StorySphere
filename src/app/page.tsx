@@ -5,24 +5,24 @@ import { prismaDb } from "@/lib/prismaDb";
 import { TrendingUp } from "lucide-react";
 
 export default async function Home() {
-  // Calculate date range for previous three days
-  const currentDate = new Date();
-  const expectedData = new Date(currentDate);
-  expectedData.setDate(currentDate.getDate() - 3);
-  const data = await prismaDb.posts.findMany({
-    where: {
-      createdAt: {
-        gte: expectedData,
-      },
-    },
-    take: 6,
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      user: true,
-    },
-  });
+  // // Calculate date range for previous three days
+  // const currentDate = new Date();
+  // const expectedData = new Date(currentDate);
+  // expectedData.setDate(currentDate.getDate() - 3);
+  // const data = await prismaDb.posts.findMany({
+  //   where: {
+  //     createdAt: {
+  //       gte: expectedData,
+  //     },
+  //   },
+  //   take: 6,
+  //   orderBy: {
+  //     createdAt: "desc",
+  //   },
+  //   include: {
+  //     user: true,
+  //   },
+  // });
   return (
     <main className="w-full">
       <HomeMenu />
@@ -32,7 +32,7 @@ export default async function Home() {
           <TrendingUp />
           <p className="font-bold">Trending on Medium</p>
         </div>
-        <TrendinPosts data={data} />
+        {/* <TrendinPosts data={data} /> */}
       </div>
     </main>
   );
