@@ -1,7 +1,6 @@
 import { prismaDb } from "@/lib/prismaDb";
 import { format } from "date-fns";
 import { UnverifiedWriterForm } from "./_components/unverified-writer-form";
-import { UnverifiedWriterColumns } from "./_components/columns";
 
 const UnverifiedWriter = async () => {
   const data = await prismaDb.writer.findMany({

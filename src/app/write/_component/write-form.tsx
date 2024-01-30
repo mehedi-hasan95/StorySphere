@@ -50,7 +50,7 @@ const WriteForm = () => {
         setError(data?.error);
         if (data?.data) {
           toast.success(data?.success);
-          router.push(`/${data?.data?.id}`);
+          router.push(`/posts/${data?.data?.id}`);
         }
       });
     });

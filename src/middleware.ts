@@ -18,9 +18,13 @@ export default auth(async (req) => {
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAdminRoute = nextUrl.pathname.startsWith(adminRoute);
+  const isPostRoute = nextUrl.pathname.startsWith("/posts");
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+  if (isPostRoute) {
+    return null;
+  }
   //   User allow to login or register API access
   if (isApiAuthRoute) {
     return null;

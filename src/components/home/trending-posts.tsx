@@ -31,7 +31,7 @@ export const TrendinPosts = async ({ data }: TrendinPostsProps) => {
                 <p className="text-sm font-semibold">{item.user.name}</p>
               </div>
               <Link
-                href={`/${item.id}`}
+                href={`/posts/${item.id}`}
                 className="md:text-xl font-bold line-clamp-2 py-2"
               >
                 {item.title}

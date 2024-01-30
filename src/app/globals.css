@@ -93,3 +93,7 @@ body {
 .menu.scrolled {
   background-color: #ffffff;
 }
+
+.tiptap.ProseMirror.bn-root.bn-editor.bn-default-styles {
+  padding: 0;
+}

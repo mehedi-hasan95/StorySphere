@@ -1,8 +1,9 @@
 "use server";
-import { CurrentUser } from "@/lib/current-user";
+import { CurrentUser, CurrentUserRole } from "@/lib/current-user";
 import { prismaDb } from "@/lib/prismaDb";
 import { WritePostSchema } from "@/schema/writer/write-post-schema";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import * as z from "zod";
 
 export const WritePostAction = async (
@@ -39,6 +40,26 @@ export const WritePostAction = async (
     });
     revalidatePath("/");
     return { success: "Post Created Successfully", data };
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};
+
+export const DeletePostAction = async (id: string) => {
+  try {
+    const currentUser = await CurrentUser();
+    const currentUserRole = await CurrentUserRole();
+    if (!currentUser && currentUserRole !== "WRITER") {
+      redirect("/");
+    }
+    await prismaDb.posts.delete({
+      where: {
+        id: id,
+        userId: currentUser?.id,
+      },
+    });
+    revalidatePath("/");
+    return { success: "Post delete successfully" };
   } catch (error) {
     return { error: "Something went wrong" };
   }

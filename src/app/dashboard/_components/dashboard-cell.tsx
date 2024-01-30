@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { UnverifiedWriterColumns } from "./columns";
+import { useRouter } from "next/navigation";
+import { DashboardProps } from "./dashboard-columns";
+import { useTransition } from "react";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,47 +12,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "sonner";
-import { useTransition } from "react";
-import {
-  DeleteWriterVerification,
-  UpdateWriterVerification,
-} from "@/actions/admin-actions/writer-related-actions";
-import { useRouter } from "next/navigation";
-
-interface UnverifiedWriterCellProps {
-  data: UnverifiedWriterColumns;
+import { Button } from "@/components/ui/button";
+import { Copy, Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
+import { DeletePostAction } from "@/actions/writer-actions/write-post-action";
+import Link from "next/link";
+interface DashboardCellProps {
+  data: DashboardProps;
 }
-export const UnverifiedWriterCell: React.FC<UnverifiedWriterCellProps> = ({
-  data,
-}) => {
+
+export const DashboardCell: React.FC<DashboardCellProps> = ({ data }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
     toast.success(`${id} is copied`);
   };
-  const onUpdate = async (id: string) => {
+  //   Delete Post
+  const onDelete = (id: string) => {
     startTransition(() => {
-      UpdateWriterVerification(id).then((data) => {
-        if (data.success) {
-          toast.success("Writer update successrully");
-          router.refresh();
-        } else {
+      DeletePostAction(id).then((data) => {
+        if (data?.error) {
           toast.error("Something went wrong");
         }
-      });
-    });
-  };
-  const onDelete = async (id: string) => {
-    startTransition(() => {
-      DeleteWriterVerification(id).then((data) => {
-        if (data.success) {
-          toast.success("Writer Delete successrully");
+        if (data?.success) {
+          toast.success(data?.success);
           router.refresh();
-        } else {
-          toast.error("Something went wrong");
         }
       });
     });
@@ -73,18 +59,21 @@ export const UnverifiedWriterCell: React.FC<UnverifiedWriterCellProps> = ({
           <Copy className="h-4 w-4 mr-2" />
           Copy Id
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => onUpdate(data.id)}
-          disabled={isPending}
-        >
+        <DropdownMenuItem>
+          <Link href={`/posts/${data.id}`} className="flex items-center">
+            <Eye className="h-4 w-4 mr-2" /> Read Post
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" disabled={isPending}>
           <Edit className="h-4 w-4 mr-2" />
           Update
         </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"
-          onClick={() => onDelete(data.id)}
           disabled={isPending}
+          onClick={() => {
+            onDelete(data.id);
+          }}
         >
           <Trash className="h-4 w-4 mr-2" />
           Delete
