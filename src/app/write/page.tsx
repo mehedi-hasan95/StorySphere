@@ -1,7 +1,7 @@
 import { CurrentUser } from "@/lib/current-user";
-import WriteForm from "./_component/write-form";
 import { prismaDb } from "@/lib/prismaDb";
 import { FormError } from "@/components/form/form-error";
+import { WritePostHome } from "./_component/write-post-home";
 
 const WritePage = async () => {
   const currentUser = await CurrentUser();
@@ -23,7 +23,7 @@ const WritePage = async () => {
       {!unVerifiedWriter ? (
         <FormError message="Please update your teacher profile" />
       ) : verifiedWriter ? (
-        <WriteForm />
+        <WritePostHome />
       ) : (
         <FormError message="You are not verified. Admin will verify soon" />
       )}

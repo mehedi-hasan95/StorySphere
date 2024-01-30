@@ -65,8 +65,10 @@ export const DashboardCell: React.FC<DashboardCellProps> = ({ data }) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer" disabled={isPending}>
-          <Edit className="h-4 w-4 mr-2" />
-          Update
+          <Link href={`/write/${data.id}`} className="flex items-center">
+            <Edit className="h-4 w-4 mr-2" />
+            Update
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"

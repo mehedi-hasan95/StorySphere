@@ -91,7 +91,7 @@ model Posts {
   title      String
   image      String?
   short_desc String
-  content    Json
+  content    String     @db.Text
   userId     String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime   @default(now())

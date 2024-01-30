@@ -2,6 +2,7 @@
 import { CurrentUser, CurrentUserRole } from "@/lib/current-user";
 import { prismaDb } from "@/lib/prismaDb";
 import { WritePostSchema } from "@/schema/writer/write-post-schema";
+import { error } from "console";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import * as z from "zod";
@@ -60,6 +61,32 @@ export const DeletePostAction = async (id: string) => {
     });
     revalidatePath("/");
     return { success: "Post delete successfully" };
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};
+
+export const UpdatePostAction = async (
+  values: z.infer<typeof WritePostSchema>,
+  id: string
+) => {
+  try {
+    const currentUser = await CurrentUser();
+    const currentUserRole = await CurrentUserRole();
+    if (!currentUser && currentUserRole !== "WRITER") {
+      redirect("/");
+    }
+    const data = await prismaDb.posts.update({
+      where: {
+        id: id,
+        userId: currentUser?.id,
+      },
+      data: {
+        ...values,
+      },
+    });
+    revalidatePath("/");
+    return { success: "Post Update successfully", data };
   } catch (error) {
     return { error: "Something went wrong" };
   }

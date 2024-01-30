@@ -37,7 +37,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
           />
           <div>
             <p>{data?.user.name}</p>
-            <p>Published date: {format(data?.createdAt as Date, "dd MMM")}</p>
+            <p>Published date: </p>
           </div>
         </div>
         <Separator />

@@ -30,8 +30,8 @@ import Link from "next/link";
 import { FormError } from "../form/form-error";
 import { FormSuccess } from "../form/form-success";
 import { ImageUpload } from "../custom/image-upload";
-import { WriterInfo } from "../../app/dashboard/_components/writer-info";
 import { Writer } from "@prisma/client";
+import { WriterInfo } from "@/app/write/_component/writer-info";
 
 interface SettingsProps {
   initialData: Writer | null;
