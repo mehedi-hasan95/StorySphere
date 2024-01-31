@@ -125,6 +125,7 @@ model Comment {
   id        String   @id @default(cuid())
   postId    String
   userId    String
+  comment   String
   post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

@@ -7,14 +7,26 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Bookmark, MessageCircle, Share, ThumbsUp } from "lucide-react";
 import { EditorRead } from "@/components/custom/editor-read";
+import { CommentButton } from "@/components/custom/comment-button";
+import { CurrentUser } from "@/lib/current-user";
+import { LoginButton } from "@/components/auth/login-button";
 
 const PostId = async ({ params }: { params: { postId: string } }) => {
+  const currentUser = await CurrentUser();
   const data = await prismaDb.posts.findUnique({
     where: {
       id: params.postId,
     },
     include: {
       user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -37,7 +49,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
           />
           <div>
             <p>{data?.user.name}</p>
-            <p>Published date: </p>
+            <p>Published date: {format(data?.createdAt as any, "dd MMM")}</p>
           </div>
         </div>
         <Separator />
@@ -47,10 +59,18 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
               <ThumbsUp className="h-4 w-4 mr-2" />
               10
             </Button>
-            <Button variant={"ghost"} className="p-0">
-              <MessageCircle className="h-4 w-4 mr-2" />
-              10
-            </Button>
+            {currentUser ? (
+              <Button variant={"ghost"} className="p-0" asChild>
+                <CommentButton id={data?.id} comment={data?.comment as any} />
+                {/* <CommentButton data={data} /> */}
+              </Button>
+            ) : (
+              <LoginButton asChild mode="modal">
+                <Button className="p-0 hover:bg-inherit" variant={"ghost"}>
+                  <MessageCircle className="h-4 w-4" />
+                </Button>
+              </LoginButton>
+            )}
           </div>
           <div className="flex gap-2">
             <Button variant={"ghost"} className="p-0">
