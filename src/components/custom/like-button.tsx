@@ -43,7 +43,7 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ id, like }) => {
           className="p-0 hover:bg-inherit"
           onClick={() => HandleDelete(like?.id as string)}
         >
-          <ThumbsUp className="text-blue-800 fill-blue-800 h-4 w-4" />
+          <ThumbsUp className="text-blue-800 fill-blue-800 h-6 w-6" />
         </Button>
       ) : (
         <Button
@@ -52,7 +52,7 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ id, like }) => {
           className="p-0 hover:bg-inherit"
           onClick={() => HandleLike(id as string)}
         >
-          <ThumbsUp className="h-4 w-4" />
+          <ThumbsUp className="h-6 w-6" />
         </Button>
       )}
     </>

@@ -10,7 +10,6 @@ import { Posts, User } from "@prisma/client";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
-import { BookmarkButton } from "@/components/custom/bookmark-button";
 import {
   HoverCard,
   HoverCardContent,
@@ -59,17 +58,6 @@ export const AllPosts = ({ data }: AllPostsProps) => {
             </Link>
             <p className="line-clamp-3">{item.short_desc}</p>
           </CardContent>
-          <CardFooter className={cn("flex justify-between items-center")}>
-            <p>Published: {format(item.createdAt, "dd MMM")}</p>
-            <HoverCard openDelay={0}>
-              <HoverCardTrigger>
-                <BookmarkButton />
-              </HoverCardTrigger>
-              <HoverCardContent className="max-w-max py-2">
-                Save
-              </HoverCardContent>
-            </HoverCard>
-          </CardFooter>
         </Card>
       ))}
     </div>

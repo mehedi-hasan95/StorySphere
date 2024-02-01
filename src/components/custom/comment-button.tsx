@@ -78,7 +78,7 @@ export const CommentButton = ({ id, comment }: CommentButtonProps) => {
   return (
     <Sheet>
       <SheetTrigger className={cn("flex items-center")}>
-        <MessageCircle className="mr-1 h-4 w-4" />
+        <MessageCircle className="mr-1 h-6 w-6" />
         {comment?.length}
       </SheetTrigger>
       <SheetContent>

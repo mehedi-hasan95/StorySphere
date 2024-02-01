@@ -36,7 +36,7 @@ export default async function Home() {
     },
   });
   return (
-    <main>
+    <main className="pb-10">
       <HomeMenu />
       <Hero />
       <div className="max-w-6xl mx-auto px-6">

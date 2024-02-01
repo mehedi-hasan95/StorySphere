@@ -5,7 +5,7 @@ import { prismaDb } from "@/lib/prismaDb";
 import Image from "next/image";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Bookmark, MessageCircle, Share, ThumbsUp } from "lucide-react";
+import { MessageCircle, Share, Share2, ThumbsUp } from "lucide-react";
 import { EditorRead } from "@/components/custom/editor-read";
 import { CommentButton } from "@/components/custom/comment-button";
 import { CurrentUser } from "@/lib/current-user";
@@ -13,6 +13,8 @@ import { LoginButton } from "@/components/auth/login-button";
 import { LikeButton } from "@/components/custom/like-button";
 import { Suspense } from "react";
 import LoadingPreview from "./loading-preview";
+import { ShareButton } from "@/components/custom/share-button";
+import NotFound from "@/app/not-found";
 
 const PostId = async ({ params }: { params: { postId: string } }) => {
   const currentUser = await CurrentUser();
@@ -41,7 +43,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
     },
   });
   if (!data) {
-    return <p>No post found</p>;
+    return <NotFound />;
   }
   return (
     <div>
@@ -67,7 +69,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
         </div>
         <Separator />
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-x-4 items-center">
             {/* Like  */}
             {currentUser ? (
               <p className="flex items-center gap-x-1">
@@ -76,7 +78,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
             ) : (
               <LoginButton asChild mode="modal">
                 <Button className="p-0 hover:bg-inherit" variant={"ghost"}>
-                  <ThumbsUp className="h-4 w-4" /> {data?.like?.length}
+                  <ThumbsUp className="h-6 w-6" /> {data?.like?.length}
                 </Button>
               </LoginButton>
             )}
@@ -88,20 +90,13 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
             ) : (
               <LoginButton asChild mode="modal">
                 <Button className="p-0 hover:bg-inherit" variant={"ghost"}>
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-6 w-6" />
                 </Button>
               </LoginButton>
             )}
           </div>
           <div className="flex gap-2">
-            <Button variant={"ghost"} className="p-0">
-              <Bookmark className="h-4 w-4 mr-2" />
-              10
-            </Button>
-            <Button variant={"ghost"} className="p-0">
-              <Share className="h-4 w-4 mr-2" />
-              10
-            </Button>
+            <ShareButton id={data?.id} />
           </div>
         </div>
         <Separator />
