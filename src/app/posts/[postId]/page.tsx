@@ -11,6 +11,8 @@ import { CommentButton } from "@/components/custom/comment-button";
 import { CurrentUser } from "@/lib/current-user";
 import { LoginButton } from "@/components/auth/login-button";
 import { LikeButton } from "@/components/custom/like-button";
+import { Suspense } from "react";
+import LoadingPreview from "./loading-preview";
 
 const PostId = async ({ params }: { params: { postId: string } }) => {
   const currentUser = await CurrentUser();
@@ -114,7 +116,9 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
             />
           )}
           <div className="pt-3">
-            <EditorRead data={data?.content} />
+            <Suspense fallback={<LoadingPreview />}>
+              <EditorRead data={data?.content} />
+            </Suspense>
           </div>
         </div>
       </div>

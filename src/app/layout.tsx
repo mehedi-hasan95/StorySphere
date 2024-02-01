@@ -6,6 +6,7 @@ import { AuthProvider } from "@/provider/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/custom/theme-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${overpass_mono.variable} ${merriweather.variable}`}
       >
         <body className={cn(inter.className)}>
+          <NextTopLoader color="#2299DD" height={3} />
           <EdgeStoreProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
               {children}
