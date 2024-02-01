@@ -10,6 +10,7 @@ import { EditorRead } from "@/components/custom/editor-read";
 import { CommentButton } from "@/components/custom/comment-button";
 import { CurrentUser } from "@/lib/current-user";
 import { LoginButton } from "@/components/auth/login-button";
+import { LikeButton } from "@/components/custom/like-button";
 
 const PostId = async ({ params }: { params: { postId: string } }) => {
   const currentUser = await CurrentUser();
@@ -19,6 +20,7 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
     },
     include: {
       user: true,
+      like: true,
       comment: {
         include: {
           user: true,
@@ -30,6 +32,15 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
     },
   });
 
+  const like = await prismaDb.like.findFirst({
+    where: {
+      postId: params.postId,
+      userId: currentUser?.id,
+    },
+  });
+  if (!data) {
+    return <p>No post found</p>;
+  }
   return (
     <div>
       <div className="flex justify-between items-center max-w-6xl mx-auto px-6 py-4">
@@ -54,16 +65,24 @@ const PostId = async ({ params }: { params: { postId: string } }) => {
         </div>
         <Separator />
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex gap-2">
-            <Button variant={"ghost"} className="p-0">
-              <ThumbsUp className="h-4 w-4 mr-2" />
-              10
-            </Button>
+          <div className="flex gap-2 items-center">
+            {/* Like  */}
             {currentUser ? (
-              <Button variant={"ghost"} className="p-0" asChild>
+              <p className="flex items-center gap-x-1">
+                <LikeButton id={data?.id} like={like} /> {data?.like?.length}
+              </p>
+            ) : (
+              <LoginButton asChild mode="modal">
+                <Button className="p-0 hover:bg-inherit" variant={"ghost"}>
+                  <ThumbsUp className="h-4 w-4" /> {data?.like?.length}
+                </Button>
+              </LoginButton>
+            )}
+            {/* Comment  */}
+            {currentUser ? (
+              <p>
                 <CommentButton id={data?.id} comment={data?.comment as any} />
-                {/* <CommentButton data={data} /> */}
-              </Button>
+              </p>
             ) : (
               <LoginButton asChild mode="modal">
                 <Button className="p-0 hover:bg-inherit" variant={"ghost"}>

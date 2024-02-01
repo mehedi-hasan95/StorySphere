@@ -47,3 +47,41 @@ export const DeleteCommentAction = async (id: string) => {
     return { error: "Something went wrong" };
   }
 };
+
+export const LikeButtonAction = async (id: string) => {
+  try {
+    const currentUser = await CurrentUser();
+    if (!currentUser) {
+      return { error: "Please login to write a comment" };
+    }
+    await prismaDb.like.create({
+      data: {
+        postId: id,
+        userId: currentUser.id,
+      },
+    });
+    revalidatePath("");
+    return { success: "Post Liked" };
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};
+
+export const DeleteLikeButtonAction = async (id: string) => {
+  try {
+    const currentUser = await CurrentUser();
+    if (!currentUser) {
+      return { error: "Please login to write a comment" };
+    }
+    await prismaDb.like.delete({
+      where: {
+        id,
+        userId: currentUser.id,
+      },
+    });
+    revalidatePath("");
+    return { success: "Delete from like" };
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};

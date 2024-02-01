@@ -22,7 +22,7 @@ import {
   WriteCommentAction,
 } from "@/actions/user-actions/user-activities-action";
 import { toast } from "sonner";
-import { Comment, Posts, User } from "@prisma/client";
+import { Comment, User } from "@prisma/client";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 import { format } from "date-fns";
