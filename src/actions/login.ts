@@ -3,7 +3,6 @@ import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/userInfo";
 import { generateVerifyToken } from "@/lib/generate-token";
 import { sendVerificationEmail } from "@/lib/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { loginSchema } from "@/schema";
 import { AuthError } from "next-auth";
 import * as z from "zod";
@@ -34,7 +33,7 @@ export const login = async (
     await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || undefined,
     });
   } catch (error) {
     if (error instanceof AuthError) {
